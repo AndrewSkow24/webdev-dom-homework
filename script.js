@@ -2,11 +2,25 @@ const addCommentButtunElement = document.getElementById("add-comment-button");
 console.log(addCommentButtunElement);
 
 addCommentButtunElement.addEventListener("click", () => {
-  alert("Меня нажали");
   let commentListElemnet = document.getElementById("comment-list");
   const inputNameElement = document.getElementById("input-name");
   const inputCommentElement = document.getElementById("input-comment");
   const currentDate = new Date();
+
+  inputNameElement.classList.remove("error");
+  inputCommentElement.classList.remove("error");
+
+  if (inputNameElement.value == "") {
+    alert("Имя не может быть пустым!");
+    inputNameElement.classList.add("error");
+    return;
+  }
+  if (inputCommentElement.value == "") {
+    alert("Комментарий не может быть пустым");
+    inputCommentElement.classList.add("error");
+    return;
+  }
+
   commentListElemnet.innerHTML += `
           <li class="comment">
           <div class="comment-header">
