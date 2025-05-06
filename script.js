@@ -102,3 +102,13 @@ likeButton.addEventListener("click", () => {
   console.log("поставлен лайк");
   document.getElementById("number-likes").innerHTML = `${likes}`;
 });
+
+// функция удаления последнего комментария
+
+const deleteButton = document.getElementById("delete-comment-button");
+
+deleteButton.addEventListener("click", () => {
+  const lastComment = commentListElemnet.lastElementChild;
+  console.log(lastComment);
+  commentListElemnet.removeChild(lastComment);
+});
