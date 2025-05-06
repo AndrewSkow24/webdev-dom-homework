@@ -137,5 +137,10 @@ body {
 }
 
 .error {
-  background-color: red;
+  background: linear-gradient(90deg, red, coral);
+}
+
+.inactive {
+  background-color: grey;
+  cursor: not-allowed;
 }
