@@ -24,7 +24,6 @@ const commentsListData = [
 ];
 
 // инициализация кнопки лайка
-
 const likeButtonEventListeners = () => {
   const likeButtons = document.querySelectorAll(".like-button");
 
@@ -46,8 +45,7 @@ const likeButtonEventListeners = () => {
   }
 };
 
-// функция отображени
-
+// функция отображения элементов массива
 const renderListComments = () => {
   const likeButtons = document.querySelectorAll(".like-button");
 
@@ -133,26 +131,15 @@ const addComment = () => {
     })
     .replace(/,/, "");
 
-  commentListElemnet.innerHTML += `
-        <li class="comment">
+  commentsListData.push({
+    name: inputNameElement.value,
+    formattedDateTime: formattedDateTime,
+    comment: inputCommentElement.value,
+    likes: 0,
+    isLikeActive: false,
+  });
 
-    <div class="comment-header">
-      <div>${inputNameElement.value}</div>
-      <div>${formattedDateTime}</div>
-    </div>
-    <div class="comment-body">
-      <div class="comment-text">
-      ${inputCommentElement.value}
-      </div>
-    </div>
-    <div class="comment-footer">
-      <div class="likes">
-      <span class="likes-counter">0</span>
-      <button class="like-button -active-like"></button>
-    </div>
-    </div>
-    </li>
-    `;
+  renderListComments();
 
   // очищение полей ввода
   inputNameElement.value = "";
