@@ -35,10 +35,8 @@ const likeButtonEventListeners = () => {
 
       if (!commentsListData[currentIndexElement].isLikeActive) {
         commentsListData[currentIndexElement].likes -= 1;
-        likeButton.classList.remove("-active-like");
       } else {
         commentsListData[currentIndexElement].likes += 1;
-        likeButton.classList.add("-active-like");
       }
       renderListComments();
     });
