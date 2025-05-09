@@ -6,6 +6,85 @@ const inputNameElement = document.getElementById("input-name");
 const inputCommentElement = document.getElementById("input-comment");
 const commentListElemnet = document.getElementById("comment-list");
 
+const commentsListData = [
+  {
+    name: "Глеб Фокин",
+    formattedDateTime: "12.02.22 12:18",
+    comment: "Это будет первый комментарий на этой странице",
+    likes: 3,
+    isLikeActive: false,
+  },
+  {
+    name: "Варвара Н.",
+    formattedDateTime: "13.02.22 19:22",
+    comment: "Мне нравится как оформлена эта страница! ❤",
+    likes: 75,
+    isLikeActive: true,
+  },
+];
+
+// инициализация кнопки лайка
+
+const likeButtonEventListeners = () => {
+  const likeButtons = document.querySelectorAll(".like-button");
+
+  for (const likeButton of likeButtons) {
+    likeButton.addEventListener("click", () => {
+      currentIndexElement = likeButton.dataset.index;
+      commentsListData[currentIndexElement].isLikeActive =
+        !commentsListData[currentIndexElement].isLikeActive;
+
+      if (!commentsListData[currentIndexElement].isLikeActive) {
+        commentsListData[currentIndexElement].likes -= 1;
+        likeButton.classList.remove("-active-like");
+      } else {
+        commentsListData[currentIndexElement].likes += 1;
+        likeButton.classList.add("-active-like");
+      }
+      renderListComments();
+    });
+  }
+};
+
+// функция отображени
+
+const renderListComments = () => {
+  const likeButtons = document.querySelectorAll(".like-button");
+
+  const commentsHtml = commentsListData
+    .map((comment, index) => {
+      // console.log(comment);
+      return `
+      <li class="comment" data-index="${index}">
+          <div class="comment-header">
+            <div>${comment.name}</div>
+            <div>${comment.formattedDateTime}</div>
+          </div>
+          <div class="comment-body">
+            <div class="comment-text">
+            ${comment.comment}
+            </div>
+          </div>
+          <div class="comment-footer">
+            <div class="likes">
+              <span class="likes-counter">${comment.likes}</span>
+              <button data-index="${index}" class="like-button ${
+        comment.isLikeActive ? "-active-like" : ""
+      }"></button>
+            </div>
+          </div>
+        </li>
+    `;
+    })
+    .join("");
+
+  commentListElemnet.innerHTML = commentsHtml;
+
+  likeButtonEventListeners();
+};
+
+renderListComments();
+
 // функция проверки заполненности полей
 const checkInputs = () => {
   const isNameFilled = inputNameElement.value !== "";
@@ -93,16 +172,6 @@ const handleKeyPress = (e) => {
 
 document.addEventListener("keypress", handleKeyPress);
 
-// likes
-
-let likes = 0;
-const likeButton = document.getElementById("like-button");
-likeButton.addEventListener("click", () => {
-  likes++;
-  console.log("поставлен лайк");
-  document.getElementById("number-likes").innerHTML = `${likes}`;
-});
-
 // функция удаления последнего комментария
 
 const deleteButton = document.getElementById("delete-comment-button");
@@ -112,3 +181,5 @@ deleteButton.addEventListener("click", () => {
   console.log(lastComment);
   commentListElemnet.removeChild(lastComment);
 });
+
+// д3 2
