@@ -6,6 +6,8 @@ const inputNameElement = document.getElementById("input-name");
 const inputCommentElement = document.getElementById("input-comment");
 const commentListElemnet = document.getElementById("comment-list");
 
+const deleteButton = document.getElementById("delete-comment-button");
+
 const commentsListData = [
   {
     name: "Глеб Фокин",
@@ -43,10 +45,32 @@ const likeButtonEventListeners = () => {
   }
 };
 
+const editCommentButtonEventListeners = () => {
+  /*
+  Что нужно сделать:
+  Пользователь должен иметь возможность отредактировать любой уже написанный комментарий.
+  Для этого под каждым комментарием должна появиться кнопка «Редактировать».
+  При клике на кнопку «Редактировать», текст комментария должен замениться полем ввода в формате textarea, а кнопка «Редактировать» должна быть заменена на кнопку «Сохранить».
+  В поле ввода должен быть автоматически подставлен текущий текст комментария для удобного редактирования.
+  Пользователь может внести изменения в текст комментария, используя поле ввода.
+  При клике на кнопку «Сохранить» введённые изменения должны быть сохранены в массив данных, а интерфейс должен вернуться в исходное состояние.
+*/
+
+  const editCommentButtons = document.querySelectorAll(".edit-comment-button");
+
+  for (const editCommentButton of editCommentButtons) {
+    editCommentButton.addEventListener("click", () => {
+      const index = editCommentButton.dataset.index;
+
+      const commentText = document.querySelector(
+        `.comment-text[data-index="${index}"]`
+      );
+    });
+  }
+};
+
 // функция отображения элементов массива
 const renderListComments = () => {
-  const likeButtons = document.querySelectorAll(".like-button");
-
   const commentsHtml = commentsListData
     .map((comment, index) => {
       // console.log(comment);
@@ -57,7 +81,7 @@ const renderListComments = () => {
             <div>${comment.formattedDateTime}</div>
           </div>
           <div class="comment-body">
-            <div class="comment-text">
+            <div class="comment-text" data-index="${index}">
             ${comment.comment}
             </div>
           </div>
@@ -69,6 +93,9 @@ const renderListComments = () => {
       }"></button>
             </div>
           </div>
+          <button data-index="${index}" class="edit-comment-button">
+            Редактировать
+          </button>
         </li>
     `;
     })
@@ -77,6 +104,7 @@ const renderListComments = () => {
   commentListElemnet.innerHTML = commentsHtml;
 
   likeButtonEventListeners();
+  editCommentButtonEventListeners();
 };
 
 renderListComments();
@@ -159,12 +187,7 @@ document.addEventListener("keypress", handleKeyPress);
 
 // функция удаления последнего комментария
 
-const deleteButton = document.getElementById("delete-comment-button");
-
 deleteButton.addEventListener("click", () => {
-  const lastComment = commentListElemnet.lastElementChild;
-  console.log(lastComment);
-  commentListElemnet.removeChild(lastComment);
+  commentsListData.pop();
+  renderListComments();
 });
-
-// д3 2
