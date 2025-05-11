@@ -25,16 +25,34 @@ const commentsListData = [
   },
 ];
 
+// инициализация каждого комментария
+const initCommentEl = () => {
+  const comments = document.querySelectorAll(".comment");
+
+  for (const comment of comments) {
+    comment.addEventListener("click", () => {
+      const index = comment.dataset.index;
+
+      // alert(`Вы нажали на коммент, индекс: ${index}`);
+      inputCommentElement.value =
+        commentsListData[index].name +
+        "\n>> " +
+        commentsListData[index].comment +
+        "\n\n";
+    });
+  }
+};
+
 // инициализация кнопки лайка
 const likeButtonEventListeners = () => {
   const likeButtons = document.querySelectorAll(".like-button");
 
   for (const likeButton of likeButtons) {
-    likeButton.addEventListener("click", () => {
+    likeButton.addEventListener("click", (event) => {
       currentIndexElement = likeButton.dataset.index;
       commentsListData[currentIndexElement].isLikeActive =
         !commentsListData[currentIndexElement].isLikeActive;
-
+      event.stopPropagation();
       if (!commentsListData[currentIndexElement].isLikeActive) {
         commentsListData[currentIndexElement].likes -= 1;
       } else {
@@ -102,7 +120,7 @@ const renderListComments = () => {
     .join("");
 
   commentListElemnet.innerHTML = commentsHtml;
-
+  initCommentEl();
   likeButtonEventListeners();
   editCommentButtonEventListeners();
 };
@@ -158,9 +176,13 @@ const addComment = () => {
     .replace(/,/, "");
 
   commentsListData.push({
-    name: inputNameElement.value,
+    name: inputNameElement.value
+      .replaceAll("<", "&lt;")
+      .replaceAll(">", "&gt;"),
     formattedDateTime: formattedDateTime,
-    comment: inputCommentElement.value,
+    comment: inputCommentElement.value
+      .replaceAll("<", "&lt;")
+      .replaceAll(">", "&gt;"),
     likes: 0,
     isLikeActive: false,
   });
