@@ -15,6 +15,7 @@ const commentsListData = [
     comment: "Это будет первый комментарий на этой странице",
     likes: 3,
     isLikeActive: false,
+    isEdit: false,
   },
   {
     name: "Варвара Н.",
@@ -22,6 +23,7 @@ const commentsListData = [
     comment: "Мне нравится как оформлена эта страница! ❤",
     likes: 75,
     isLikeActive: true,
+    isEdit: false,
   },
 ];
 
@@ -79,15 +81,22 @@ const editCommentButtonEventListeners = () => {
   const editCommentButtons = document.querySelectorAll(".edit-comment-button");
 
   for (const editCommentButton of editCommentButtons) {
-    editCommentButton.addEventListener("click", () => {
+    editCommentButton.addEventListener("click", (event) => {
       const index = editCommentButton.dataset.index;
-
+      alert("Редактирование");
       const commentText = document.querySelector(
         `.comment-text[data-index="${index}"]`
       );
+
+      commentsListData[index].isEdit = true;
+
+      event.stopPropagation();
     });
   }
 };
+
+// функция замены текста коммента на поле ввода
+// и кнопки редактировать на сохранить
 
 // функция отображения элементов массива
 const renderListComments = () => {
