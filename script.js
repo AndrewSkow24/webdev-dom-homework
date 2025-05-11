@@ -89,6 +89,7 @@ const editCommentButtonEventListeners = () => {
       );
 
       commentsListData[index].isEdit = true;
+      renderListComments();
 
       event.stopPropagation();
     });
@@ -110,11 +111,15 @@ const renderListComments = () => {
             <div>${comment.formattedDateTime}</div>
           </div>
           <div class="comment-body">
-            <div class="comment-text" data-index="${index}">
+          ${
+            comment.isEdit == false
+              ? `<div class="comment-text" data-index="${index}">
             ${comment.comment
               .replaceAll("QUOTE_BEGIN", "<div class='quote'>")
               .replaceAll("QUOTE_END", "</div>")}
-            </div>
+            </div>`
+              : `<textarea></textarea>`
+          }
           </div>
           <div class="comment-footer">
             <div class="likes">
@@ -124,9 +129,19 @@ const renderListComments = () => {
       }"></button>
             </div>
           </div>
-          <button data-index="${index}" class="edit-comment-button">
-            Редактировать
-          </button>
+          ${
+            comment.isEdit === false
+              ? `
+              <button data-index="${index}" class="edit-comment-button">
+                Редактировать
+              </button>
+            `
+              : `
+              <button data-index="${index}" class="edit-comment-button">
+                Сохранить
+              </button>
+            `
+          }
         </li>
     `;
     })
