@@ -170,3 +170,8 @@ body {
   margin-right: auto;
   display: block;
 }
+
+.quote {
+  background-color: white;
+  color: gray;
+}

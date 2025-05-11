@@ -35,10 +35,12 @@ const initCommentEl = () => {
 
       // alert(`Вы нажали на коммент, индекс: ${index}`);
       inputCommentElement.value =
+        "QUOTE_BEGIN " +
         commentsListData[index].name +
-        "\n>> " +
+        "\n" +
         commentsListData[index].comment +
-        "\n\n";
+        "\n\n" +
+        "QUOTE_END";
     });
   }
 };
@@ -100,7 +102,9 @@ const renderListComments = () => {
           </div>
           <div class="comment-body">
             <div class="comment-text" data-index="${index}">
-            ${comment.comment}
+            ${comment.comment
+              .replaceAll("QUOTE_BEGIN", "<div class='quote'>")
+              .replaceAll("QUOTE_END", "</div>")}
             </div>
           </div>
           <div class="comment-footer">
