@@ -27,11 +27,17 @@ getAllComments();
 const renderComments = () => {
   const commentsHtml = commentsArray
     .map((comment) => {
+      const commentDate = new Date(comment.date);
+      const formattedString =
+        commentDate.toLocaleDateString("ru-Ru") +
+        " " +
+        commentDate.toLocaleTimeString("ru-RU");
+      console.log(formattedString);
       return `
      <li class="comment data-id=${comment.id}">
           <div class="comment-header">
             <div>${comment.author.name}</div>
-            <div>${comment.date}</div>
+            <div>${formattedString}</div>
           </div>
           <div class="comment-body">
             <div class="comment-text">
