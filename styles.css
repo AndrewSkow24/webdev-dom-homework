@@ -175,3 +175,7 @@ body {
   background-color: white;
   color: gray;
 }
+
+#loading-elemment {
+  display: none;
+}

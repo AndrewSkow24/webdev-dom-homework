@@ -5,24 +5,21 @@ const inputCommentElement = document.getElementById("input-comment");
 
 let commentsArray = [];
 
-const getAllComments = () => {
-  const fetchPromise = fetch(
-    "https://wedev-api.sky.pro/api/v1/andrew-skow/comments",
-    {
-      method: "GET",
-    }
-  );
-  fetchPromise.then((response) => {
-    const jsonPromise = response.json();
-    jsonPromise.then((responseData) => {
+const fetchAndRenderAllComments = () => {
+  commentsListElement.textContent = "Подождите, комментарии загружаются ...";
+  return fetch("https://wedev-api.sky.pro/api/v1/andrew-skow/comments", {
+    method: "GET",
+  })
+    .then((response) => {
+      return response.json();
+    })
+    .then((responseData) => {
       commentsArray = responseData.comments;
-      console.log(commentsArray);
       renderComments();
     });
-  });
 };
 
-getAllComments();
+fetchAndRenderAllComments();
 
 const renderComments = () => {
   const commentsHtml = commentsArray
@@ -59,20 +56,32 @@ const renderComments = () => {
 };
 
 addCommentButtonElement.addEventListener("click", () => {
+  inputNameElement.style.display = "none";
+  inputCommentElement.style.display = "none";
+  addCommentButtonElement.style.display = "none";
+  const loadingMessage = document.getElementById("loading-elemment");
+  loadingMessage.style.display = "block";
+
   fetch("https://wedev-api.sky.pro/api/v1/andrew-skow/comments", {
     method: "POST",
     body: JSON.stringify({
       text: inputCommentElement.value,
       name: inputNameElement.value,
     }),
-  }).then((response) => {
-    response.json().then((responseData) => {
-      console.log(responseData);
-      getAllComments();
+  })
+    .then((response) => {
+      return response.json();
+    })
+    .then((responseData) => {
+      fetchAndRenderAllComments();
+    })
+    .then((data) => {
+      // очистка формы и возвращение в обычный вид
+      inputNameElement.style.display = "block";
+      inputCommentElement.style.display = "block";
+      addCommentButtonElement.style.display = "block";
+      loadingMessage.style.display = "none";
+      inputNameElement.value = "";
+      inputCommentElement.value = "";
     });
-  });
-
-  // очистка формы
-  inputNameElement.value = "";
-  inputCommentElement.value = "";
 });
