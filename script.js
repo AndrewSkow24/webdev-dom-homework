@@ -29,7 +29,6 @@ const renderComments = () => {
         commentDate.toLocaleDateString("ru-Ru") +
         " " +
         commentDate.toLocaleTimeString("ru-RU");
-      console.log(formattedString);
       return `
      <li class="comment data-id=${comment.id}">
           <div class="comment-header">
@@ -67,10 +66,19 @@ addCommentButtonElement.addEventListener("click", () => {
     body: JSON.stringify({
       text: inputCommentElement.value,
       name: inputNameElement.value,
+      forceError: true,
     }),
   })
     .then((response) => {
-      return response.json();
+      if (response.status == 201) {
+        return response.json();
+      } else if (response.status == 400) {
+        throw new Error(
+          "Ошибка пользовательского ввода, слишком короткая строка"
+        );
+      } else {
+        throw new Error("Упал сервер");
+      }
     })
     .then((responseData) => {
       fetchAndRenderAllComments();
@@ -83,5 +91,12 @@ addCommentButtonElement.addEventListener("click", () => {
       loadingMessage.style.display = "none";
       inputNameElement.value = "";
       inputCommentElement.value = "";
+    })
+    .catch((error) => {
+      alert(`Произошла ошибка, повторите позже: ${error} `);
+      inputNameElement.style.display = "block";
+      inputCommentElement.style.display = "block";
+      addCommentButtonElement.style.display = "block";
+      loadingMessage.style.display = "none";
     });
 });
