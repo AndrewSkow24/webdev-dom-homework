@@ -1,11 +1,13 @@
 import { renderComments } from "./render.js";
 
+const baseUrl = "https://wedev-api.sky.pro/api/v2/andrew-skow/";
+
 export const fetchAndRenderAllComments = (
   commentsListElement,
   commentsArray
 ) => {
   commentsListElement.textContent = "Подождите, комментарии загружаются ...";
-  return fetch("https://wedev-api.sky.pro/api/v1/andrew-skow/comments", {
+  return fetch(baseUrl + "comments", {
     method: "GET",
   })
     .then((response) => {
@@ -31,12 +33,11 @@ export const addComment = (
     const loadingMessage = document.getElementById("loading-elemment");
     loadingMessage.style.display = "block";
 
-    fetch("https://wedev-api.sky.pro/api/v1/andrew-skow/comments", {
+    fetch(baseUrl + "comments", {
       method: "POST",
       body: JSON.stringify({
         text: inputCommentElement.value,
         name: inputNameElement.value,
-        forceError: true,
       }),
     })
       .then((response) => {
@@ -46,6 +47,8 @@ export const addComment = (
           throw new Error(
             "Ошибка пользовательского ввода, слишком короткая строка"
           );
+        } else if (response.status == 401) {
+          throw new Error("Ошибка авторизации");
         } else {
           throw new Error("Упал сервер");
         }
