@@ -1,5 +1,5 @@
 import { renderComments } from "./render.js";
-
+import { userToken } from "./main.js";
 const baseUrl = "https://wedev-api.sky.pro/api/v2/andrew-skow/";
 
 export const fetchAndRenderAllComments = (
@@ -33,8 +33,13 @@ export const addComment = (
     const loadingMessage = document.getElementById("loading-elemment");
     loadingMessage.style.display = "block";
 
+    console.log(userToken);
+
     fetch(baseUrl + "comments", {
       method: "POST",
+      headers: {
+        Authorization: userToken,
+      },
       body: JSON.stringify({
         text: inputCommentElement.value,
         name: inputNameElement.value,

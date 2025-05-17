@@ -2,6 +2,10 @@ body {
   margin: 0;
 }
 
+a {
+  color: white;
+}
+
 .container {
   font-family: Helvetica;
   color: #ffffff;

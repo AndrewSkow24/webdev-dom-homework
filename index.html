@@ -12,11 +12,7 @@
         <!-- рендеринг из js -->
       </ul>
 
-      <button class="delete-comment" id="delete-comment-button">
-        Удалить последний комментарий
-      </button>
-
-      <div class="add-form">
+      <div id="comment-add-form" class="add-form">
         <input
           type="text"
           class="add-form-name"
@@ -37,9 +33,16 @@
           <div id="loading-elemment">Подождите, комментарий добавляется</div>
         </div>
       </div>
-    </div>
 
-    <a href="users.html">Список пользователей</a>
+      <div id="authorization">
+        <p>
+          Чтобы добавить комментарий
+          <a href="#" id="autorization-link"> авторизируйтесь </a>
+        </p>
+      </div>
+
+      <div id="login-form">тут появится форма авторизации</div>
+    </div>
 
     <script src="main.js" type="module"></script>
   </body>
