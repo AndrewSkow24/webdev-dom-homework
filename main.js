@@ -62,12 +62,17 @@ autorizationLink.addEventListener("click", () => {
       })
       .then((responseData) => {
         setUserToken(responseData.user.token);
+        console.log(responseData.user);
+        inputNameElement.placeholder = responseData.user.name;
       })
       .then(() => {
-        commentsListElement.style.display = "block";
-        commentAddForm.style.display = "block";
+        commentsListElement.style.display = "flex";
+        commentAddForm.style.display = "flex";
         document.getElementById("authorization").style.display = "none";
         document.getElementById("login-form").style.display = "none";
+      })
+      .catch((error) => {
+        alert(error);
       });
   });
 });

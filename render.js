@@ -35,15 +35,15 @@ export const renderAutorizationForm = () => {
   const loginFormElement = document.getElementById("login-form");
 
   const loginFormHtml = `
-        <input type="text" placeholder="Введите логин" id="input-login" />
+        <input type="text" placeholder="Введите логин" id="input-login" class="input-login" />
         <input
           type="text"
           placeholder="Введите ваш пароль"
           id="input-password"
+          class="input-password"
         />
-        <div class="add-form-row">
           <button id="login-button">Войти</button>
-        </div>`;
+        `;
   loginFormElement.innerHTML = loginFormHtml;
 
   document.getElementById("comment-list").style.display = "none";
