@@ -1,11 +1,12 @@
+import { format } from "date-fns";
+
 export const renderComments = (commentsListElement, commentsArray) => {
   const commentsHtml = commentsArray
     .map((comment) => {
       const commentDate = new Date(comment.date);
-      const formattedString =
-        commentDate.toLocaleDateString("ru-Ru") +
-        " " +
-        commentDate.toLocaleTimeString("ru-RU");
+      const swedishFormat = "yyyy-MM-dd hh.mm.ss";
+      const formattedString = format(commentDate, swedishFormat);
+
       return `
        <li class="comment" data-id=${comment.id}">
             <div class="comment-header">
